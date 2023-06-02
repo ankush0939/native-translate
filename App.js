@@ -6,18 +6,31 @@ import HomeScreen from './screens/HomeScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SettingsScreen from './screens/SettingsScreen';
 import SavedScreen from './screens/SavedScreen';
+import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator 
+      screenOptions={{ 
+        headerShown: false, 
+        tabBarStyle: {
+          justifyContent: "space-evenly"
+        }
+      }} 
+    >
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarLabel: "Home"
+          tabBarLabel: "Home",
+          tabBarIcon: (props) => {
+            return <Entypo name="home" size={props.size} color={props.color} />
+          }
         }}
       />
 
@@ -25,7 +38,10 @@ const TabNavigator = () => {
         name="Settings"
         component={SettingsScreen}
         options={{
-          tabBarLabel: "Settings"
+          tabBarLabel: "Settings",
+          tabBarIcon: (props) => {
+            return <Ionicons name="settings" size={props.size} color={props.color} />
+          }
         }}
       />
 
@@ -33,7 +49,10 @@ const TabNavigator = () => {
         name="Saved"
         component={SavedScreen}
         options={{
-          tabBarLabel: "Saved"
+          tabBarLabel: "Saved",
+          tabBarIcon: (props) => {
+            return <FontAwesome name="bookmark" size={props.size} color={props.color} />
+          }
         }}
       />
     </Tab.Navigator>
@@ -43,7 +62,11 @@ const TabNavigator = () => {
 export default function App() {
   return (
     <NavigationContainer>
-      <View style={{ flex: 1 }}>
+      <View style={{
+        flex: 1,
+        alignSelf: "center",
+        justifyContent: "center"
+      }}>
         <Text>My first native project</Text>
         <Stack.Navigator>
           <Stack.Group>
@@ -60,12 +83,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

@@ -9,6 +9,9 @@ import SavedScreen from './screens/SavedScreen';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import * as SplashScreen from 'expo-splash-screen';
+import { useCallback, useEffect, useState } from 'react';
+import * as Font from 'expo-font';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -60,9 +63,47 @@ const TabNavigator = () => {
 }
 
 export default function App() {
+  const [appIsLoaded, setAppIsLoaded] = useState(false); 
+  useEffect(() => {
+    const prepare = async () => {
+      try {
+        await Font.loadAsync({
+          black: require("./assets/fonts/Roboto-Black.ttf"),
+          blackItalic: require("./assets/fonts/Roboto-BlackItalic.ttf"),
+          bold: require("./assets/fonts/Roboto-Bold.ttf"),
+          boldItalic: require("./assets/fonts/Roboto-BoldItalic.ttf"),
+          light: require("./assets/fonts/Roboto-Light.ttf"),
+          lightItalic: require("./assets/fonts/Roboto-LightItalic.ttf"),
+          regular: require("./assets/fonts/Roboto-Regular.ttf"),
+          medium: require("./assets/fonts/Roboto-Medium.ttf"),
+          mediumItalic: require("./assets/fonts/Roboto-MediumItalic.ttf"),
+          thin: require("./assets/fonts/Roboto-Thin.ttf"),
+          thisItalic: require("./assets/fonts/Roboto-ThinItalic.ttf")
+        });
+      }
+      catch (e) {
+              console.log(e)
+      }
+      finally {
+              setAppIsLoaded(true);
+      }
+    };
+    prepare();
+  }, []);
+  
+  const onlayout = useCallback(async () => {
+    if(appIsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsLoaded]);
+
+  if(!appIsLoaded) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
-      <View style={{
+      <View onlayout={onlayout} style={{
         flex: 1,
         alignSelf: "center",
         justifyContent: "center"

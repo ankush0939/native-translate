@@ -12,6 +12,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect, useState } from 'react';
 import * as Font from 'expo-font';
+import colors from './utils/colors';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -104,12 +105,20 @@ export default function App() {
   return (
     <NavigationContainer>
       <View onlayout={onlayout} style={{
-        flex: 1,
-        alignSelf: "center",
-        justifyContent: "center"
+        flex: 1
       }}>
-        <Text>My first native project</Text>
-        <Stack.Navigator>
+        <Stack.Navigator
+        screenOptions={{
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontFamily: 'medium',
+            color: 'white',
+          },
+          headerStyle: {
+            backgroundColor: colors.primary
+          }
+        }}
+        >
           <Stack.Group>
             <Stack.Screen
               name="main"
